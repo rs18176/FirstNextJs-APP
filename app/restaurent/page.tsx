@@ -1,5 +1,6 @@
-'use client'
-import { useState } from 'react';
+"use client";
+import { useState } from "react";
+import { useSearchParams } from "next/navigation";
 import RestaurentLogin from '../_component/RestaurentLogin';
 import RestaurentSignUp from '../_component/RestaurentSignUp';
 import RestaurentHeader from '../_component/RestaurentHeader';
@@ -8,18 +9,20 @@ import './style.css';
 
 
 const Restaurent = () => {
-    const [login, setlogin] = useState(true);
+    const login = useSearchParams().get("login") === "true";
+    const [isLogin, setlogin] = useState(login);
+    console.log("Login state:", isLogin);
     return (
         <>
             <div className='container'>
                 <RestaurentHeader />
                 <h1 className="text-3xl text-white">Restaurent Login/Signup Page</h1>
                 {
-                    login ? <RestaurentLogin /> : <RestaurentSignUp />
+                    isLogin ? <RestaurentSignUp /> : <RestaurentLogin />
                 }
                 <div>
-                    <button onClick={() => setlogin(!login)} className="button-link">
-                        {login ? "Don't have an account? Signup" : "Already have an account? Login"}
+                    <button onClick={() => setlogin(!isLogin)} className="button-link">
+                        {isLogin ? "Already have an account? Login" : "Don't have an account? Signup"}
                     </button>
                 </div>
             </div>
